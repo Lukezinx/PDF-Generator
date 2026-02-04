@@ -58,30 +58,6 @@ Este projeto foi desenvolvido com foco em boas práticas de engenharia de softwa
 - Java JDK 17+
 - Maven instalado
 
-### Passo a Passo
-
-1. **Clone o repositório:**
-   ```bash
-   git clone [https://github.com/Lukezinx/PDF-Generato]
-Entre na pasta:
-
-Bash
-
-cd seu-repositorio
-Compile o projeto:
-
-Bash
-
-mvn clean install
-Execute a aplicação: Você pode rodar diretamente pela sua IDE (IntelliJ/Eclipse) executando a classe App.java ou via linha de comando após o build.
-
-Bem vindo ao menu principal
-1 - Ler um PDF Existente
-2 - Gerar um Novo PDF
-3 - Converter PDF Existente para JSON
-...
-✅ JSON criado com sucesso!
-📊 O arquivo original tinha 5 páginas.
 
 📄 Licença
 Este projeto está licenciado sob a licença Apache 2.0 - veja o arquivo LICENSE para mais detalhes.
