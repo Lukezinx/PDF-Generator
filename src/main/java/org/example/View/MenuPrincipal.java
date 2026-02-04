@@ -1,6 +1,7 @@
 package org.example.View;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.example.Exceptions.ErroExportacaoJsonException;
 import org.example.Exceptions.PdfException;
 import org.example.Model.ArquivoSalvo;
 import org.example.Services.ExportadorJsonService;
@@ -69,7 +70,8 @@ public class MenuPrincipal {
         if(!nomeArquivo.endsWith(".pdf")) nomeArquivo += ".pdf";
 
         File arquivo = new File(nomeArquivo);
-        String texto = leitorPdfServices.executar(arquivo);
+        ArquivoSalvo resultado = leitorPdfServices.executar(arquivo);
+        String texto = resultado.getConteudoTexto();
 
         System.out.println("CONTEUDO DO PDF");
 
@@ -88,7 +90,7 @@ public class MenuPrincipal {
         String nomePdfFinal = nomeArquivo + ".pdf";
 
 
-        System.out.println("\n--- MODO DE TEXTO LONGO ---");
+        System.out.println("--- MODO DE TEXTO LONGO ---");
         System.out.println("Cole seu texto abaixo. Quando terminar, pressione ENTER");
         System.out.println("em uma linha vazia e digite 'FIM' para processar.");
         System.out.println();
@@ -122,7 +124,7 @@ public class MenuPrincipal {
             String resposta = scanner.nextLine();
             if(resposta.equalsIgnoreCase("S")){
 
-                ArquivoSalvo modelo = new ArquivoSalvo(nomePdfFinal,1,textoFinal.trim());
+                ArquivoSalvo modelo = new ArquivoSalvo(nomePdfFinal, documento.getNumberOfPages(), textoFinal.trim());
                 exportadorJsonService.salvarEmJson(modelo, nomeArquivo);
             }
 
@@ -139,16 +141,14 @@ public class MenuPrincipal {
         if(!nomeArquivo.endsWith(".pdf")) nomeArquivo += ".pdf";
         File arquivo = new File(nomeArquivo);
 
-        String texto = leitorPdfServices.executar(arquivo);
+        try{
+            ArquivoSalvo modelo = leitorPdfServices.executar(arquivo);
+            String nomeJson = nomeArquivo.replace(".pdf", "");
 
-        if(texto.startsWith("Erro")) {
-            System.out.println(texto);
-            return;
+            exportadorJsonService.salvarEmJson(modelo, nomeJson);
+        } catch (ErroExportacaoJsonException e) {
+            System.err.println("Erro ao converter PDF: " + e.getMessage());
         }
-
-        ArquivoSalvo modelo = new ArquivoSalvo(nomeArquivo, 0, texto);
-        String nomeJson = nomeArquivo.replace(".pdf", "");
-        exportadorJsonService.salvarEmJson(modelo, nomeJson);
     }
 
 }

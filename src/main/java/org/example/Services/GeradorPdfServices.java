@@ -75,7 +75,7 @@ public class GeradorPdfServices {
                 continue;
             }
 
-            String[] palavras = texto.split(" ");
+            String[] palavras = paragrafo.split(" ");
             String linhaAtual = "";
 
 
@@ -98,7 +98,7 @@ public class GeradorPdfServices {
                 }
             }
 
-            if(linhaAtual.isEmpty()){
+            if(!linhaAtual.isEmpty()){
                 imprimirLinha(linhaAtual);
             }
 

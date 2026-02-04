@@ -4,6 +4,7 @@ import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.example.Exceptions.ErroLeituraPdfException;
+import org.example.Model.ArquivoSalvo;
 import org.example.Services.Interfaces.IPdfServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ public class LeitorPdfServices implements IPdfServices {
 
 
     @Override
-    public String executar(File arquivoPdf) {
+    public ArquivoSalvo executar(File arquivoPdf) {
 
         logger.info("Iniciando leitura do arquivo: {}", arquivoPdf.getName());
 
@@ -42,8 +43,9 @@ public class LeitorPdfServices implements IPdfServices {
             PDFTextStripper extrair = new PDFTextStripper();
 
             extrair.setSortByPosition(true);
+            String textoExtraido = extrair.getText(document);
 
-            return extrair.getText(document);
+            return new ArquivoSalvo(arquivoPdf.getName(),totalPaginas,textoExtraido);
 
         } catch (IOException e) {
             logger.error("Falha ao ler o PDF", e);
